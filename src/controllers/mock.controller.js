@@ -3,8 +3,11 @@ import { usersService } from "../services/index.js";
 import { petsService } from "../services/index.js"
 
 
-const create50Users = async(req,res)=>{
-    const cantidad=50
+const createUser= async(cantidad)=>{
+   
+    if(!cantidad) cantidad=50
+   
+  
     let users=[]
     for(let i=0;i<cantidad;i++){
     const userFaker= {
@@ -14,16 +17,16 @@ const create50Users = async(req,res)=>{
         role: faker.helpers.arrayElement(['admin', 'user']),
         password: "coder123"
     }
-
     let result = await usersService.create(userFaker)
     users.push(result)
-
+    }
+    return users
 }
-    res.send({status:"success",payload:users})
-}
 
-const create50Pets = async(req,res)=>{
-    const cantidad=50
+const createPets= async(cantidad)=>{
+    
+    if(!cantidad) cantidad=50
+   
     let pets=[]
     for(let i=0;i<cantidad;i++){
     const petFaker= {
@@ -32,21 +35,39 @@ const create50Pets = async(req,res)=>{
         birthDate: faker.date.birthdate(),
         adopted: faker.datatype.boolean() 
     }
-
     let result = await petsService.create(petFaker)
     pets.push(result)
+    }
+    return pets
 
 }
+
+// funciones de la ruta de mocks
+
+const createMockUsers = async(req,res)=>{
+    const users= await createUser()
+    res.send({status:"success",payload:users})
+    return users
+}
+
+const createMockPets = async(req,res)=>{
+    const pets= await createPets()
     res.send({status:"success",payload:pets})
+    return pets
 }
 
 const generateData = async(req,res)=>{
- 
+   let {users, pets}= req.body
+   const usersCreated = await createUser(users)
+   const petsCreated = await createPets(pets)
+    res.send({status:"success",payload:{users,pets}})
+
 }
 
 
 export default {
-    create50Users,
-    create50Pets
+    createMockUsers,
+    createMockPets,
+    generateData
 }
 
