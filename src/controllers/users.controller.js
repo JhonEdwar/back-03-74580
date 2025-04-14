@@ -23,8 +23,8 @@ const updateUser =async(req,res)=>{
 
 const deleteUser = async(req,res) =>{
     const userId = req.params.uid;
-    const result = await usersService.getUserById(userId);
-    res.send({status:"success",message:"User deleted"})
+    const result = await usersService.delete(userId);
+    res.send({status:"success",message:"User deleted",payload:result})
 }
 
 export default {
