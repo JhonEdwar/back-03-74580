@@ -36,7 +36,7 @@ const createPets = async (cantidad) => {
                 name: faker.animal.petName(),
                 specie: faker.helpers.arrayElement(['Perro', 'Gato', 'Conejo', 'Pez', 'Ave']),
                 birthDate: faker.date.birthdate(),
-                adopted: faker.datatype.boolean()
+                adopted: faker.datatype.boolean(0.0)
             };
             let result = await petsService.create(petFaker);
             pets.push(result);
