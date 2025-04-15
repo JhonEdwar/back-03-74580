@@ -31,7 +31,6 @@ const options={
     apis:["./src/docs/*.yaml"]
 }
 const spec=swagger(options);
-console.log(spec)
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(spec))
 
 
